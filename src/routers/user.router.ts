@@ -1,7 +1,7 @@
 import { Router as createRouter } from 'express';
 import createDebug from 'debug';
-import { User } from '../entities/users.js';
-import { UserRepo } from '../repository/user.m.repository.js';
+import { User } from '../entities/user.js';
+import { UserRepo } from '../repository/user.mongo.repository.js';
 import { UserController } from '../controllers/user.controller.js';
 import { Repository } from '../repository/repository.js';
 const debug = createDebug('W7:UserRouter');

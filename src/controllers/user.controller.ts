@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Controller } from './controller.js';
-import { User } from '../entities/users.js';
+import { User } from '../entities/user.js';
 import { UserRepo } from '../repository/user.m.repository.js';
 import { AuthServices, PayloadToken } from '../services/auth.js';
 import { HttpError } from '../types/http.error.js';
