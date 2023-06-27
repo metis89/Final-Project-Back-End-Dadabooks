@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:new": "node --watch dist/index.js",
-    "server": "cross-env DEBUG=W7* PORT=9900 nodemon dist/index.js",
+    "server": "cross-env DEBUG=SFP* PORT=9900 nodemon dist/index.js",
     "server2": "nodemon dist/index.js",
     "build": "tsc --watch",
     "build:prod": "tsc",
@@ -16,7 +16,6 @@
   },
   "keywords": [],
   "author": "Sofia Hudson",
-  "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.13",

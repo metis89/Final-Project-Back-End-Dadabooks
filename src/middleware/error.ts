@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { HttpError } from '../types/http.error.js';
 import mongoose, { mongo } from 'mongoose';
+import { ValidationError } from 'express-validation';
 import createDebug from 'debug';
-const debug = createDebug('W7:ErrorMiddleware');
+const debug = createDebug('SFP:ErrorMiddleware');
 
 export const handleError = (
   error: Error,
@@ -17,7 +18,7 @@ export const handleError = (
     res.status(error.status);
     res.statusMessage = error.message;
     res.send({
-      status: error.status,
+      status: error.status + ' ' + error.statusMessage,
     });
     return;
   }
@@ -38,6 +39,15 @@ export const handleError = (
     res.statusMessage = 'Not accepted';
     res.send({
       status: '406 Not accepted',
+    });
+    return;
+  }
+
+  if (error instanceof ValidationError) {
+    res.status(error.statusCode);
+    res.statusMessage = error.error;
+    res.send({
+      status: error.statusCode + ' ' + error.error,
     });
     return;
   }

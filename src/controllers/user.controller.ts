@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import { Controller } from './controller.js';
 import { User } from '../entities/user.js';
-import { UserRepo } from '../repository/user.m.repository.js';
+import { UserRepo } from '../repository/user.mongo.repository.js';
 import { AuthServices, PayloadToken } from '../services/auth.js';
 import { HttpError } from '../types/http.error.js';
 import { LoginResponse } from '../types/response.api.js';
 
 import createDebug from 'debug';
-const debug = createDebug('W7:UserController');
+const debug = createDebug('SFP:UserController');
 
 export class UserController extends Controller<User> {
   // eslint-disable-next-line no-unused-vars

@@ -5,7 +5,7 @@ import { HttpError } from '../types/http.error.js';
 import createDebug from 'debug';
 
 // TEMP import { HttpError } from '../types/http.error.js';
-const debug = createDebug('W7:UserRepo');
+const debug = createDebug('SFP:UserRepo');
 
 export class UserRepo implements Partial<Repository<User>> {
   constructor() {
@@ -35,10 +35,10 @@ export class UserRepo implements Partial<Repository<User>> {
     return result;
   }
 
-  // Async create(data: Omit<User, 'id'>): Promise<User> {
-  //   const newUser = await UserModel.create(data);
-  //   return newUser;
-  // }
+  async create(data: Omit<User, 'id'>): Promise<User> {
+    const newUser = await UserModel.create(data);
+    return newUser;
+  }
 
   async update(id: string, data: Partial<User>): Promise<User> {
     const newUser = await UserModel.findByIdAndUpdate(id, data, {
@@ -49,9 +49,9 @@ export class UserRepo implements Partial<Repository<User>> {
     return newUser;
   }
 
-  // Async delete(id: string): Promise<void> {
-  //   const result = await UserModel.findByIdAndDelete(id).exec();
-  //   if (result === null)
-  //     throw new HttpError(404, 'Not found', 'Bad id for the delete');
-  // }
+  async delete(id: string): Promise<void> {
+    const result = await UserModel.findByIdAndDelete(id).exec();
+    if (result === null)
+      throw new HttpError(404, 'Not found', 'Bad id for the delete');
+  }
 }
