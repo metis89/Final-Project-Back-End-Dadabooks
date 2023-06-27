@@ -6,16 +6,24 @@ jest.mock('jsonwebtoken');
 jest.mock('bcrypt');
 
 describe('Given the AuthServices class', () => {
-  describe('When I use createJWT method', () => {
+  describe('When createJWT method is called', () => {
     test('Then the JWT sign method should be called', () => {
       const payload = {} as PayloadToken;
       AuthServices.createJWT(payload);
       expect(jwt.sign).toHaveBeenCalled();
     });
   });
-  describe('When I use verifyJWTGettingPayload method', () => {
-    test('Then the JWT verify method should be called', () => {
-      const token = {} as string;
+
+  describe('When method verifyJWTGettingPayload is called', () => {
+    test('Then jwt.verify should have been called', () => {
+      const token = 'test';
+      (jwt.verify as jest.Mock).mockReturnValue(token);
+      expect(() => AuthServices.verifyJWTGettingPayload(token)).toThrow();
+      expect(jwt.verify).toHaveBeenCalled();
+    });
+    test('Then it should return result as a PayloadToken', () => {
+      (jwt.verify as jest.Mock).mockReturnValue({});
+      const token = 'test';
       AuthServices.verifyJWTGettingPayload(token);
       expect(jwt.verify).toHaveBeenCalled();
     });
