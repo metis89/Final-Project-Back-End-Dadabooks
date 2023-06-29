@@ -7,6 +7,7 @@ import { handleError } from './middleware/error.js';
 const debug = createDebug('SFP:App');
 
 export const app = express();
+app.disable('x-powered-by');
 
 debug('Loaded Express App');
 
