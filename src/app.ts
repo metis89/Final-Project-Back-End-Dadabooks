@@ -4,6 +4,7 @@ import cors from 'cors';
 import createDebug from 'debug';
 import { userRouter } from './routers/user.router.js';
 import { handleError } from './middleware/error.js';
+import { bookRouter } from './routers/book.router.js';
 const debug = createDebug('SFP:App');
 
 export const app = express();
@@ -25,5 +26,6 @@ app.get('/', (_req, res) => {
 });
 
 app.use('/user', userRouter);
+app.use('/books', bookRouter);
 
 app.use(handleError);
