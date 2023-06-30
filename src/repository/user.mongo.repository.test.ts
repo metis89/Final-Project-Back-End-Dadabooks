@@ -1,3 +1,5 @@
+import { User } from '../entities/user.js';
+import { HttpError } from '../types/http.error.js';
 import { UserModel } from './user.mongo.model.js';
 import { UserRepo } from './user.mongo.repository.js';
 
@@ -24,10 +26,7 @@ describe('Given the UserRepo class', () => {
       const mockId = '1';
       const mockUser = {
         id: '1',
-        userName: 'Ernestina',
-        email: 'ernestina@email.com',
-        password: '',
-      };
+      } as User;
       const exec = jest.fn().mockResolvedValueOnce(mockUser);
       UserModel.findById = jest.fn().mockReturnValueOnce({ exec });
 
@@ -56,11 +55,7 @@ describe('Given the UserRepo class', () => {
     });
 
     test('Then the create method should be used', async () => {
-      const mockUser = {
-        userName: 'Ernestina',
-        email: 'ernestina@email.com',
-        password: '',
-      };
+      const mockUser = {} as User;
 
       UserModel.create = jest.fn().mockReturnValueOnce(mockUser);
       const result = await repo.create(mockUser);
@@ -89,6 +84,38 @@ describe('Given the UserRepo class', () => {
       });
       await repo.delete(mockId);
       expect(UserModel.findByIdAndDelete).toHaveBeenCalled();
+    });
+  });
+
+  describe('When it is instantiated and queryById method is called but id is not found', () => {
+    test('Then it should throw an error', async () => {
+      const repo = new UserRepo();
+      const mockId = '';
+      const error = new HttpError(404, 'Not found', 'Invalid Id');
+      const exec = jest.fn().mockResolvedValueOnce(null);
+      UserModel.findById = jest.fn().mockReturnValueOnce({ exec });
+      await expect(repo.queryById(mockId)).rejects.toThrow(error);
+    });
+  });
+  describe('When it is instantiated and update method is called but id is not found', () => {
+    test('Then it should throw an error', async () => {
+      const repo = new UserRepo();
+      const mockId = '';
+      const mockUser = {} as Partial<User>;
+      const error = new HttpError(404, 'Not Found', 'Invalid Id');
+      const exec = jest.fn().mockResolvedValueOnce(null);
+      UserModel.findByIdAndUpdate = jest.fn().mockReturnValueOnce({ exec });
+      await expect(repo.update(mockId, mockUser)).rejects.toThrow(error);
+    });
+  });
+  describe('When it is instantiated and delete method is called but id is not found', () => {
+    test('Then it should throw an error', async () => {
+      const repo = new UserRepo();
+      const mockId = '';
+      const error = new HttpError(404, 'Not Found', 'Invalid Id');
+      const exec = jest.fn().mockResolvedValueOnce(null);
+      UserModel.findByIdAndDelete = jest.fn().mockReturnValueOnce({ exec });
+      await expect(repo.delete(mockId)).rejects.toThrow(error);
     });
   });
 });
