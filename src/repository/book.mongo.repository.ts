@@ -20,7 +20,7 @@ export class BookRepo implements Repository<Book> {
       .populate('user', { books: 0 })
       .exec();
     if (result === null)
-      throw new HttpError(404, 'Not found', 'Bad id for the query');
+      throw new HttpError(404, 'Not found', 'No user found with this id');
     return result;
   }
 
@@ -31,9 +31,7 @@ export class BookRepo implements Repository<Book> {
     key: string;
     value: unknown;
   }): Promise<Book[]> {
-    const result = await BookModel.find({ [key]: value })
-      .populate('user', { books: 0 })
-      .exec();
+    const result = await BookModel.find({ [key]: value }).exec();
     return result;
   }
 
@@ -45,17 +43,13 @@ export class BookRepo implements Repository<Book> {
   async update(id: string, data: Partial<Book>): Promise<Book> {
     const newBook = await BookModel.findByIdAndUpdate(id, data, {
       new: true,
-    })
-      .populate('owner', { books: 0 })
-      .exec();
-    if (newBook === null)
-      throw new HttpError(404, 'Not found', 'Bad id for the update');
+    }).exec();
+    if (newBook === null) throw new HttpError(404, 'Not found', 'Invalid id');
     return newBook;
   }
 
   async delete(id: string): Promise<void> {
     const result = await BookModel.findByIdAndDelete(id).exec();
-    if (result === null)
-      throw new HttpError(404, 'Not found', 'Bad id for the delete');
+    if (result === null) throw new HttpError(404, 'Not found', 'Invalid id');
   }
 }
