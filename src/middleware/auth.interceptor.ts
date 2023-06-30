@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { HttpError } from '../types/http.error.js';
-import { AuthServices, PayloadToken } from '../services/auth.js';
+import { AuthServices } from '../services/auth.js';
 import { BookRepo } from '../repository/book.mongo.repository.js';
 import createDebug from 'debug';
 
@@ -42,19 +42,14 @@ export class AuthInterceptor {
     try {
       if (!req.body.tokenPayload) {
         throw new HttpError(
-          498,
+          401,
           'Token not found',
           'Token not found in Authorized interceptor'
         );
       }
 
-      const { id: userID } = req.body.tokenPayload as PayloadToken;
-      const { id: bookId } = req.params;
-
-      const book = await this.bookRepo.queryById(bookId);
-
-      if (book.user.id !== userID) {
-        throw new HttpError(401, 'Not authorized', 'Not authorized');
+      if (req.body.tokenPayload.id !== req.params.id) {
+        throw new HttpError(498, 'Token not found', 'Invalid Token');
       }
 
       next();

@@ -6,4 +6,5 @@ export type User = {
   email: string;
   password: string;
   books: Book[];
+  rol: string;
 };

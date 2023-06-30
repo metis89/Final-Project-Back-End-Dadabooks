@@ -20,11 +20,11 @@ const auth = new AuthInterceptor(bookRepo);
 export const bookRouter = createRouter();
 const fileStore = new FileMiddleware();
 
-bookRouter.get('/book', controller.getAll.bind(controller));
-bookRouter.get('/book/:id', controller.getById.bind(controller));
+bookRouter.get('/', controller.getAll.bind(controller));
+bookRouter.get('/:id', controller.getById.bind(controller));
 
 bookRouter.post(
-  '/user/book',
+  '/',
   fileStore.singleFileStore('image').bind(fileStore),
   auth.logged.bind(auth),
   fileStore.optimization.bind(fileStore),
@@ -32,13 +32,13 @@ bookRouter.post(
   controller.post.bind(controller)
 );
 bookRouter.patch(
-  '/user/book/:id',
+  '/:id',
   auth.logged.bind(auth),
   auth.authorizedForBooks.bind(auth),
   controller.patch.bind(controller)
 );
 bookRouter.delete(
-  '/user/book/:id',
+  '/:id',
   auth.logged.bind(auth),
   auth.authorizedForBooks.bind(auth),
   // Controller.deleteById.bind(controller),
