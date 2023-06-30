@@ -29,6 +29,7 @@ export class AuthInterceptor {
 
       const token = authHeader.slice(7);
       const payload = AuthServices.verifyJWTGettingPayload(token);
+      // Const decode:;
 
       req.body.tokenPayload = payload;
       next();
