@@ -37,7 +37,6 @@ const bookSchema = new Schema<Book>({
       size: { type: Number },
     },
     required: true,
-    unique: true,
   },
   user: {
     type: Schema.Types.ObjectId,
