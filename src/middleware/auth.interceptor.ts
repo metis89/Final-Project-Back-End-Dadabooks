@@ -50,9 +50,6 @@ export class AuthInterceptor {
 
       console.log(req.body.tokenPayload.id);
       console.log(req.params.id);
-      // If (req.body.tokenPayload.id !== req.params.id) {
-      //   throw new HttpError(498, 'Token not found', 'Invalid Token');
-      // }
 
       next();
     } catch (error) {
