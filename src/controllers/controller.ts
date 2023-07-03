@@ -46,7 +46,7 @@ export abstract class Controller<T extends { id: string | number }> {
     }
   }
 
-  async delete(req: Request, res: Response, next: NextFunction) {
+  async deleteById(req: Request, res: Response, next: NextFunction) {
     try {
       res.status(204);
       res.send(await this.repo.delete(req.params.id));
@@ -55,3 +55,12 @@ export abstract class Controller<T extends { id: string | number }> {
     }
   }
 }
+// }
+// async delete(req: Request, res: Response, next: NextFunction) {
+//   try {
+//     res.status(204);
+//     res.send(await this.repo.delete(req.params.id));
+//   } catch (error) {
+//     next(error);
+//   }
+// }

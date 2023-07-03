@@ -4,6 +4,7 @@ import { Controller } from './controller.js';
 import { Book } from '../entities/book.js';
 import { PayloadToken } from '../services/auth.js';
 import { UserRepo } from '../repository/user.mongo.repository.js';
+import { BookModel } from '../repository/book.mongo.model.js';
 import createDebug from 'debug';
 const debug = createDebug('SFP:BookController');
 
@@ -33,30 +34,42 @@ export class BookController extends Controller<Book> {
   async patch(req: Request, res: Response, next: NextFunction) {
     try {
       const { id: userId } = req.body.tokenPayload as PayloadToken;
-      const user = await this.userRepo.queryById(userId);
-      delete req.body.tokenPayload;
-      // Req.body.owner = userId;
-      const modifyBook = await this.repo.update(req.params.id, req.body);
-      // User.books.push(modifyBook);
-      this.userRepo.update(user.id, user);
+      const nudi = await this.repo.queryById(req.params.id);
 
-      res.status(202);
-      res.send(modifyBook);
+      if (nudi && userId === nudi.user.toString()) {
+        Object.assign(nudi, req.body);
+        // Si se proporcionó un archivo de imagen, actualizar la imagen del nudibranquio
+        if (req.file) {
+          nudi.image = {
+            urlOriginal: req.file.path,
+            url: req.file.path,
+            mimetype: req.file.mimetype,
+            size: req.file.size,
+          };
+        }
+
+        const modifyBook = await this.repo.update(req.params.id, req.body);
+        res.status(201).send(modifyBook);
+      } else {
+        res.status(403).json({ message: 'Unauthorized' });
+      }
     } catch (error) {
       next(error);
     }
   }
 
-  async delete(req: Request, res: Response, next: NextFunction) {
+  async deleteById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id: userId } = req.body.tokenPayload as PayloadToken;
-      const user = await this.userRepo.queryById(userId);
-      delete req.body.tokenPayload;
-      const deleteBook = await this.repo.delete(req.params.id);
-      this.userRepo.update(user.id, user);
+      console.error(userId);
+      const book = await this.repo.queryById(req.params.id);
 
-      res.status(204);
-      res.send(deleteBook);
+      if (book && userId === book.user.id) {
+        await this.repo.delete(req.params.id);
+        res.status(200).send(book);
+      } else {
+        res.status(403).json({ message: 'Unauthorized' });
+      }
     } catch (error) {
       next(error);
     }
