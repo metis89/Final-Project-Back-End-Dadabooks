@@ -9,7 +9,7 @@ import { UserRepo } from '../repository/user.mongo.repository.js';
 import { FileMiddleware } from '../middleware/files.js';
 
 import createDebug from 'debug';
-const debug = createDebug('W6:BookRouter');
+const debug = createDebug('SFP:BookRouter');
 
 debug('Executed');
 
@@ -41,6 +41,6 @@ bookRouter.delete(
   '/:id',
   auth.logged.bind(auth),
   auth.authorizedForBooks.bind(auth),
-  // Controller.deleteById.bind(controller),
-  controller.delete.bind(controller)
+  controller.deleteById.bind(controller)
+  // Controller.delete.bind(controller)
 );
