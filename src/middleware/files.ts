@@ -58,7 +58,7 @@ export class FileMiddleware {
         throw new HttpError(406, 'Not Acceptable', 'Not valid image file');
       }
 
-      const options = optionsSets.sighting;
+      const options = optionsSets.book;
       const fileName = req.file.filename;
       const baseFileName = `${path.basename(fileName, path.extname(fileName))}`;
 

@@ -22,6 +22,10 @@ export class BookController extends Controller<Book> {
       delete req.body.tokenPayload;
       req.body.owner = userId;
       const newBook = await this.repo.create(req.body);
+      if (!user.books) {
+        user.books = [];
+      }
+
       user.books.push(newBook);
       this.userRepo.update(user.id, user);
       res.status(201);
