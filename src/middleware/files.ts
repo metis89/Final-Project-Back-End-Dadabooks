@@ -16,7 +16,7 @@ const optionsSets: {
     quality: number;
   };
 } = {
-  sighting: {
+  book: {
     width: 300,
     height: 300,
     fit: 'cover',
@@ -33,7 +33,7 @@ export class FileMiddleware {
   singleFileStore(fileName = 'file', fileSize = 8_000_000) {
     const upload = multer({
       storage: multer.diskStorage({
-        destination: 'uploads',
+        destination: 'public/uploads',
         filename(req, file, callback) {
           console.log({ file });
           const suffix = crypto.randomUUID();
@@ -58,23 +58,23 @@ export class FileMiddleware {
         throw new HttpError(406, 'Not Acceptable', 'Not valid image file');
       }
 
-      const options = optionsSets.sighting;
+      const options = optionsSets.book;
       const fileName = req.file.filename;
       const baseFileName = `${path.basename(fileName, path.extname(fileName))}`;
 
-      const imageData = await sharp(path.join('uploads', fileName))
+      const imageData = await sharp(path.join('public/uploads', fileName))
         .resize(options.width, options.height, {
           fit: options.fit,
           position: options.position,
         })
         .webp({ quality: options.quality })
         .toFormat('webp')
-        .toFile(path.join('uploads', `${baseFileName}_1.webp`));
+        .toFile(path.join('public/uploads', `${baseFileName}_1.webp`));
 
       req.file.originalname = req.file.path;
       req.file.filename = `${baseFileName}.${imageData.format}`;
       req.file.mimetype = `image/${imageData.format}`;
-      req.file.path = path.join('uploads', req.file.filename);
+      req.file.path = path.join('public/uploads', req.file.filename);
       req.file.size = imageData.size;
 
       next();
@@ -85,11 +85,15 @@ export class FileMiddleware {
 
   saveImage = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      debug('Called saveImage');
+      debug('Called saveImage', req.file);
       if (!req.file)
         throw new HttpError(406, 'Not Acceptable', 'Not valid image file');
+
       const userImage = req.file.filename;
-      const imagePath = path.join('uploads', userImage);
+      const aUserImage = userImage.split('.');
+      const imagePath = `${req.protocol}://${req.get('host')}/uploads/${
+        aUserImage[0] + '_1.' + aUserImage[1]
+      }`;
 
       req.body[req.file.fieldname] = {
         urlOriginal: req.file.originalname,

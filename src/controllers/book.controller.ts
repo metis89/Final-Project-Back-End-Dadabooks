@@ -4,7 +4,7 @@ import { Controller } from './controller.js';
 import { Book } from '../entities/book.js';
 import { PayloadToken } from '../services/auth.js';
 import { UserRepo } from '../repository/user.mongo.repository.js';
-import { BookModel } from '../repository/book.mongo.model.js';
+
 import createDebug from 'debug';
 const debug = createDebug('SFP:BookController');
 
@@ -22,6 +22,10 @@ export class BookController extends Controller<Book> {
       delete req.body.tokenPayload;
       req.body.owner = userId;
       const newBook = await this.repo.create(req.body);
+      if (!user.books) {
+        user.books = [];
+      }
+
       user.books.push(newBook);
       this.userRepo.update(user.id, user);
       res.status(201);
@@ -34,13 +38,12 @@ export class BookController extends Controller<Book> {
   async patch(req: Request, res: Response, next: NextFunction) {
     try {
       const { id: userId } = req.body.tokenPayload as PayloadToken;
-      const nudi = await this.repo.queryById(req.params.id);
+      console.error(userId);
+      const book = await this.repo.queryById(req.params.id);
 
-      if (nudi && userId === nudi.user.toString()) {
-        Object.assign(nudi, req.body);
-        // Si se proporcionó un archivo de imagen, actualizar la imagen del nudibranquio
+      if (book && userId === book.user.id) {
         if (req.file) {
-          nudi.image = {
+          book.image = {
             urlOriginal: req.file.path,
             url: req.file.path,
             mimetype: req.file.mimetype,
