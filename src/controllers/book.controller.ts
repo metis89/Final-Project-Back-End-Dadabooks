@@ -37,31 +37,31 @@ export class BookController extends Controller<Book> {
     }
   }
 
-  async patch(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { id: userId } = req.body.tokenPayload as PayloadToken;
-      console.error(userId);
-      const book = await this.repo.queryById(req.params.id);
+  // Async patch(req: Request, res: Response, next: NextFunction) {
+  //   try {
+  //     const { id: userId } = req.body.tokenPayload as PayloadToken;
+  //     console.error(userId);
+  //     const book = await this.repo.queryById(req.params.id);
 
-      if (book && userId === book.user.id) {
-        if (req.file) {
-          book.image = {
-            urlOriginal: req.file.path,
-            url: req.file.path,
-            mimetype: req.file.mimetype,
-            size: req.file.size,
-          };
-        }
+  //     if (book && userId === book.user.id) {
+  //       if (req.file) {
+  //         book.image = {
+  //           urlOriginal: req.file.path,
+  //           url: req.file.path,
+  //           mimetype: req.file.mimetype,
+  //           size: req.file.size,
+  //         };
+  //       }
 
-        const modifyBook = await this.repo.update(req.params.id, req.body);
-        res.status(201).send(modifyBook);
-      } else {
-        res.status(403).json({ message: 'Unauthorized' });
-      }
-    } catch (error) {
-      next(error);
-    }
-  }
+  //       const modifyBook = await this.repo.update(req.params.id, req.body);
+  //       res.status(201).send(modifyBook);
+  //     } else {
+  //       res.status(403).json({ message: 'Unauthorized' });
+  //     }
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
 
   async deleteById(req: Request, res: Response, next: NextFunction) {
     try {

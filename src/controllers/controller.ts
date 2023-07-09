@@ -37,14 +37,14 @@ export abstract class Controller<T extends { id: string | number }> {
     }
   }
 
-  async patch(req: Request, res: Response, next: NextFunction) {
-    try {
-      res.status(202);
-      res.send(await this.repo.update(req.params.id, req.body));
-    } catch (error) {
-      next(error);
-    }
-  }
+  // Async patch(req: Request, res: Response, next: NextFunction) {
+  //   try {
+  //     res.status(202);
+  //     res.send(await this.repo.update(req.params.id, req.body));
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
 
   async deleteById(req: Request, res: Response, next: NextFunction) {
     try {
