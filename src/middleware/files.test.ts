@@ -85,7 +85,7 @@ describe('Given FilesMiddleware', () => {
 
     test('Then it should call next without parameters', async () => {
       const filesMiddleware = new FileMiddleware();
-      await filesMiddleware.saveImage(req, resp, next);
+      await filesMiddleware.saveDataImage(req, resp, next);
       expect(next).toHaveBeenLastCalledWith();
     });
   });
@@ -97,7 +97,7 @@ describe('Given FilesMiddleware', () => {
 
     test('Then it should call next with the error', () => {
       const filesMiddleware = new FileMiddleware();
-      filesMiddleware.saveImage(req, resp, next);
+      filesMiddleware.saveDataImage(req, resp, next);
       expect(next).toHaveBeenLastCalledWith(expect.any(HttpError));
     });
   });

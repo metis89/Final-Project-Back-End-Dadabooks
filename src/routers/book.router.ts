@@ -28,7 +28,7 @@ bookRouter.post(
   fileStore.singleFileStore('image').bind(fileStore),
   auth.logged.bind(auth),
   fileStore.optimization.bind(fileStore),
-  fileStore.saveImage.bind(fileStore),
+  fileStore.saveDataImage.bind(fileStore),
   controller.post.bind(controller)
 );
 bookRouter.patch(

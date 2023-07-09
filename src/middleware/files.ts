@@ -1,3 +1,4 @@
+// Import { FireBase } from '../services/firebase.js';
 import path from 'path';
 import multer from 'multer';
 import createDebug from 'debug';
@@ -48,8 +49,14 @@ export class FileMiddleware {
         fileSize,
       },
     });
+
     const middleware = upload.single(fileName);
-    return middleware;
+
+    return (req: Request, res: Response, next: NextFunction) => {
+      const previousBody = req.body;
+      middleware(req, res, next);
+      req.body = { ...previousBody, ...req.body };
+    };
   }
 
   async optimization(req: Request, res: Response, next: NextFunction) {
@@ -83,21 +90,29 @@ export class FileMiddleware {
     }
   }
 
-  saveImage = async (req: Request, res: Response, next: NextFunction) => {
+  saveDataImage = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      debug('Called saveImage', req.file);
+      debug('Called saveDataImage');
       if (!req.file)
-        throw new HttpError(406, 'Not Acceptable', 'Not valid image file');
-
+        throw new HttpError(406, 'Not Acceptable 2', 'Not valid image file 2');
       const userImage = req.file.filename;
       const aUserImage = userImage.split('.');
       const imagePath = `${req.protocol}://${req.get('host')}/uploads/${
         aUserImage[0] + '_1.' + aUserImage[1]
       }`;
 
+      //   Const aImage = req.file.filename.split('.');
+      // const userImage = aImage[0] + '_1.' + aImage[1];
+      // const imagePath = path.join('public/uploads', userImage);
+
+      // const firebase = new FireBase();
+      // const FireBaseImage = await firebase.uploadFile(userImage);
+
       req.body[req.file.fieldname] = {
+        // UrlOriginal: req.file.originalname.split('public')[1],
         urlOriginal: req.file.originalname,
         url: imagePath,
+        // ImageUrl: FireBaseImage,
         mimetype: req.file.mimetype,
         size: req.file.size,
       };
