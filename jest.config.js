@@ -11,7 +11,9 @@ export default {
     'src/app.ts',
     'src/config.ts',
     'src/routers/user.router.ts',
+    'src/routers/book.router.ts',
     'src/repository/user.mongo.model.ts',
     'src/repository/book.mongo.model.ts',
+    'src/controllers/controller.ts',
   ],
 };
