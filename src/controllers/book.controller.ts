@@ -24,11 +24,7 @@ export class BookController extends Controller<Book> {
       req.body.user = userId;
       const newBook = await this.repo.create(req.body);
       console.log(newBook);
-      // If (!user.books) {
-      //   user.books = [];
-      // }
 
-      // user.books.push(newBook);
       this.userRepo.update(user.id, user);
       res.status(201);
       res.send(newBook);
@@ -37,38 +33,11 @@ export class BookController extends Controller<Book> {
     }
   }
 
-  // Async patch(req: Request, res: Response, next: NextFunction) {
-  //   try {
-  //     const { id: userId } = req.body.tokenPayload as PayloadToken;
-  //     console.error(userId);
-  //     const book = await this.repo.queryById(req.params.id);
-
-  //     if (book && userId === book.user.id) {
-  //       if (req.file) {
-  //         book.image = {
-  //           urlOriginal: req.file.path,
-  //           url: req.file.path,
-  //           mimetype: req.file.mimetype,
-  //           size: req.file.size,
-  //         };
-  //       }
-
-  //       const modifyBook = await this.repo.update(req.params.id, req.body);
-  //       res.status(201).send(modifyBook);
-  //     } else {
-  //       res.status(403).json({ message: 'Unauthorized' });
-  //     }
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
-
   async deleteById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id: userId } = req.body.tokenPayload as PayloadToken;
       const book = await this.repo.queryById(req.params.id);
 
-      console.log('book', book);
       if (book && userId === book.user.id) {
         await this.repo.delete(req.params.id);
         res.status(200).send(book);
