@@ -8,7 +8,7 @@ describe('Given an abstract Controller class', () => {
     const mockRepoUser = {} as unknown as UserRepo;
     const mockRepo: BookRepo = {
       query: jest.fn().mockResolvedValue([]),
-      queryById: jest.fn().mockResolvedValue({ books: [] }),
+      queryById: jest.fn().mockResolvedValue({ tittle: '', user: { id: 1 } }),
       search: jest.fn(),
       create: jest.fn().mockResolvedValue([]),
       update: jest.fn(),
@@ -20,10 +20,10 @@ describe('Given an abstract Controller class', () => {
       body: { name: 'thing1', id: 1 },
     } as unknown as Request;
 
-    const res = {
-      send: jest.fn(),
-      status: jest.fn(),
-    } as unknown as Response;
+    const res = {} as unknown as Response;
+
+    res.send = jest.fn().mockReturnValue(res);
+    res.status = jest.fn().mockReturnValue(res);
 
     const next = jest.fn() as NextFunction;
     const controller = new BookController(mockRepo, mockRepoUser);
@@ -40,14 +40,8 @@ describe('Given an abstract Controller class', () => {
       expect(mockRepo.queryById).toHaveBeenCalled();
     });
 
-    // Test('Then method patch should be used', async () => {
-    //   await controller.patch(req, res, next);
-    //   // Expect(res.status).toHaveBeenCalledWith(201);
-    //   expect(res.send).toHaveBeenCalled();
-    //   expect(mockRepo.update).toHaveBeenCalled();
-    // });
-
-    test('Then method deleteById should be used', async () => {
+    test.only('Then method deleteById should be used', async () => {
+      req.body.tokenPayload = { id: 1 };
       await controller.deleteById(req, res, next);
       expect(res.send).toHaveBeenCalled();
       expect(mockRepo.delete).toHaveBeenCalled();
@@ -132,11 +126,6 @@ describe('Given an abstract Controller class', () => {
       expect(next).toHaveBeenCalledWith(error);
     });
 
-    // Test('patch should handle errors', async () => {
-    //   await controller.patch(req, res, next);
-    //   expect(next).toHaveBeenCalledWith(error);
-    // });
-
     test('deleteById should handle errors', async () => {
       await controller.deleteById(req, res, next);
       expect(next).toHaveBeenCalledWith(error);
@@ -178,11 +167,6 @@ describe('Given an abstract Controller class', () => {
       await newController.post(newReq, newRes, next);
       expect(next).toHaveBeenCalledWith(error);
     });
-
-    // Test('Then the patch method should handle errors', async () => {
-    //   await newController.patch(newReq, newRes, next);
-    //   expect(next).toHaveBeenCalledWith(error);
-    // });
 
     test('Then the deleteById method should handle errors', async () => {
       await newController.deleteById(newReq, newRes, next);
