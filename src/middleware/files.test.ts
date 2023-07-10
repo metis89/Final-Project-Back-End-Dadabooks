@@ -75,22 +75,23 @@ describe('Given FilesMiddleware', () => {
     });
   });
 
-  describe('When method saveImage is used with valid data', () => {
-    const req = {
+  describe('When method saveDataImage is used with valid data', () => {
+    const req: unknown = {
       body: {},
       file: { filename: 'test' },
-    } as Request;
+      get: jest.fn(),
+    };
     const resp = {} as unknown as Response;
     const next = jest.fn();
 
     test('Then it should call next without parameters', async () => {
       const filesMiddleware = new FileMiddleware();
-      await filesMiddleware.saveDataImage(req, resp, next);
+      await filesMiddleware.saveDataImage(req as Request, resp, next);
       expect(next).toHaveBeenLastCalledWith();
     });
   });
 
-  describe('When method saveImage is used with NOT valid data', () => {
+  describe('When method saveDataImage is used with NOT valid data', () => {
     const req = {} as Request;
     const resp = {} as unknown as Response;
     const next = jest.fn();
