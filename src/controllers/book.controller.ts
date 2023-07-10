@@ -21,7 +21,7 @@ export class BookController extends Controller<Book> {
       const { id: userId } = req.body.tokenPayload as PayloadToken;
       const user = await this.userRepo.queryById(userId);
       delete req.body.tokenPayload;
-      req.body.owner = userId;
+      req.body.user = userId;
       const newBook = await this.repo.create(req.body);
       console.log(newBook);
       // If (!user.books) {
@@ -66,9 +66,9 @@ export class BookController extends Controller<Book> {
   async deleteById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id: userId } = req.body.tokenPayload as PayloadToken;
-      console.error(userId);
       const book = await this.repo.queryById(req.params.id);
 
+      console.log('book', book);
       if (book && userId === book.user.id) {
         await this.repo.delete(req.params.id);
         res.status(200).send(book);

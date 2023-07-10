@@ -34,8 +34,8 @@ bookRouter.post(
 bookRouter.patch(
   '/:id',
   auth.logged.bind(auth),
-  auth.authorizedForBooks.bind(auth),
-  controller.patch.bind(controller)
+  auth.authorizedForBooks.bind(auth)
+  // Controller.patch.bind(controller)
 );
 bookRouter.delete(
   '/:id',
