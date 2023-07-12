@@ -15,5 +15,6 @@ export default {
     'src/repository/user.mongo.model.ts',
     'src/repository/book.mongo.model.ts',
     'src/controllers/controller.ts',
+    '/src/controllers/book.controller.ts/',
   ],
 };

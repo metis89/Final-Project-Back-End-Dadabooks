@@ -8,7 +8,6 @@ Join Dadabooks and discover a passionate community of readers, where you can eas
 - **Back-end:** Node.js, Express
 - **Database:** MongoDB with Mongoose
 - **Testing:** Jest
-- **Libraries:** SweetAlert2
 
 ## Deployment (back)
 

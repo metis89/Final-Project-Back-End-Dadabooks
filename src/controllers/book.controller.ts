@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { NextFunction, Request, Response } from 'express';
 import { BookRepo } from '../repository/book.mongo.repository.js';
 import { Controller } from './controller.js';

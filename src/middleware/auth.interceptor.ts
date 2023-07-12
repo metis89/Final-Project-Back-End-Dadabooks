@@ -47,9 +47,6 @@ export class AuthInterceptor {
         );
       }
 
-      // Console.log(req.body.tokenPayload.id);
-      // console.log(req.params.id);
-
       next();
     } catch (error) {
       next(error);
