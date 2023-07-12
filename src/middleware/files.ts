@@ -101,13 +101,6 @@ export class FileMiddleware {
         aUserImage[0] + '_1.' + aUserImage[1]
       }`;
 
-      //   Const aImage = req.file.filename.split('.');
-      // const userImage = aImage[0] + '_1.' + aImage[1];
-      // const imagePath = path.join('public/uploads', userImage);
-
-      // const firebase = new FireBase();
-      // const FireBaseImage = await firebase.uploadFile(userImage);
-
       req.body[req.file.fieldname] = {
         // UrlOriginal: req.file.originalname.split('public')[1],
         urlOriginal: req.file.originalname,

@@ -29,7 +29,6 @@ export class AuthInterceptor {
 
       const token = authHeader.slice(7);
       const payload = AuthServices.verifyJWTGettingPayload(token);
-      // Const decode:;
 
       req.body.tokenPayload = payload;
       next();
@@ -48,8 +47,8 @@ export class AuthInterceptor {
         );
       }
 
-      console.log(req.body.tokenPayload.id);
-      console.log(req.params.id);
+      // Console.log(req.body.tokenPayload.id);
+      // console.log(req.params.id);
 
       next();
     } catch (error) {
