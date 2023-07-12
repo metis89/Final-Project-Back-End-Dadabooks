@@ -19,7 +19,7 @@ const optionsSets: {
 } = {
   book: {
     width: 300,
-    height: 300,
+    height: 500,
     fit: 'cover',
     position: 'top',
     quality: 100,

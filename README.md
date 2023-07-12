@@ -8,11 +8,10 @@ Join Dadabooks and discover a passionate community of readers, where you can eas
 - **Back-end:** Node.js, Express
 - **Database:** MongoDB with Mongoose
 - **Testing:** Jest
-- **Libraries:** SweetAlert2
 
 ## Deployment (back)
 
 - Make a clone of the project
 - Install dependencies: `npm i`.
-- Start the project: `npm start`.
-- To run the tests: `npm test`.
+- Start the project: `npm run start`.
+- To run the tests: `npm run test`.
