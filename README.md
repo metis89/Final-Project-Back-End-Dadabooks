@@ -14,5 +14,5 @@ Join Dadabooks and discover a passionate community of readers, where you can eas
 
 - Make a clone of the project
 - Install dependencies: `npm i`.
-- Start the project: `npm start`.
-- To run the tests: `npm test`.
+- Start the project: `npm run start`.
+- To run the tests: `npm run test`.
