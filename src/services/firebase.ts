@@ -1,3 +1,5 @@
+// Pendiente de implementación
+
 // Import { readFile } from 'fs/promises';
 // import { FirebaseApp, initializeApp } from 'firebase/app';
 // import { firebaseConfig } from '../config.js';
