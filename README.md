@@ -15,5 +15,3 @@ Join Dadabooks and discover a passionate community of readers, where you can eas
 - Install dependencies: `npm i`.
 - Start the project: `npm run start`.
 - To run the tests: `npm run test`.
-
-Sofia's Final Project
